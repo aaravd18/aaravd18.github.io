@@ -16,17 +16,12 @@ redirect_from:
   </section>
 
   {% assign posts_by_year = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
-  {% assign module_images = "/images/500x300.png|/images/profile.png|/images/bio-photo.jpg|/images/editing-talk.png" | split: "|" %}
+  {% assign module_image = "/images/sft_vs_rl_header.png" %}
 
   <section class="course-blog__modules">
     {% for year_group in posts_by_year %}
-      {% assign year_number = year_group.name | plus: 0 %}
-      {% assign image_index = year_number | modulo: module_images.size %}
-      {% assign module_image = module_images[image_index] %}
-
       <article class="course-module">
         <div class="course-module__media" style="background-image: linear-gradient(to top, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.08)), url('{{ base_path }}{{ module_image }}');">
-          <p class="course-module__label">Module</p>
           <h2 class="course-module__year" id="year-{{ year_group.name }}">{{ year_group.name }}</h2>
         </div>
 
@@ -40,8 +35,9 @@ redirect_from:
                 <time class="course-post-row__date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time>
               </header>
 
-              {% if post.excerpt %}
-                <p class="course-post-row__excerpt">{{ post.excerpt | markdownify | strip_html | strip_newlines | truncate: 150 }}</p>
+              {% assign card_excerpt = post.excerpt_text | default: post.excerpt %}
+              {% if card_excerpt %}
+                <p class="course-post-row__excerpt">{{ card_excerpt | markdownify | strip_html | strip_newlines | truncate: 150 }}</p>
               {% endif %}
 
               <div class="course-post-row__actions">

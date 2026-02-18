@@ -243,12 +243,20 @@ body {
 .course-module__content {
   padding: 0.95rem;
   background: #f1f1f1;
+  display: flex;
+  flex-direction: column;
 }
 
 .course-post-row {
   background: var(--course-card);
   border-radius: 12px;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.course-module__content > .course-post-row:only-child {
+  flex: 1;
 }
 
 .course-post-row + .course-post-row {
@@ -285,7 +293,8 @@ body {
 }
 
 .course-post-row__actions {
-  margin-top: 0.85rem;
+  margin-top: auto;
+  padding-top: 0.85rem;
   display: flex;
   gap: 0.55rem;
   flex-wrap: wrap;
