@@ -14,7 +14,12 @@ layout: default
   {% endunless %}
 {% endif %}
 
-<div id="main" role="main">
+{% assign is_blog_post = false %}
+{% if page.collection == "posts" or page.url contains "/posts/" %}
+  {% assign is_blog_post = true %}
+{% endif %}
+
+<div id="main" role="main"{% if page.url == "/" %} class="home-main"{% endif %}>
   {% include sidebar.html %}
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
@@ -44,7 +49,7 @@ layout: default
         </header>
       {% endunless %}
 
-      <section class="page__content" itemprop="text">
+      <section class="page__content{% if is_blog_post %} page__content--post{% endif %}" itemprop="text">
         {{ content }}
 
         {% if page.citation and page.paperurl and page.slidesurl and page.bibtexurl %}
@@ -83,7 +88,7 @@ layout: default
         {% include page__taxonomy.html %}
       </footer>
 
-      {% if page.share %}{% include social-share.html %}{% endif %}
+      {% if page.share and is_blog_post != true %}{% include social-share.html %}{% endif %}
 
       {% include post_pagination.html %}
     </div>

@@ -156,6 +156,9 @@
   img {
     max-width: 175px;
     border-radius: 50%;
+    object-fit: cover; 
+    object-position: 50% 50%;   // X Y: move face left/right, up/down
+    transform: scale(1.00);
 
     @include breakpoint($large) {
       padding: 5px;
