@@ -23,7 +23,7 @@ repository               : "aaravd18/aaravd18.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "updated_profile.png"
+  avatar           : "profile.png"
   name             : "Aarav Desai"
   pronouns         : # example: "she/her"  
   bio              : "ML Researcher at UC Berkeley"
