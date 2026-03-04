@@ -11,6 +11,10 @@
   --course-accent-text: #1c1c1c;
 }
 
+html {
+  background: var(--course-bg);
+}
+
 body {
   background: radial-gradient(circle at top right, #f7f7f7, var(--course-bg) 45%);
   color: var(--course-text);
@@ -38,6 +42,10 @@ body {
 
 .masthead__menu-item a {
   font-weight: 600;
+}
+
+.masthead__menu-item a[href$="/blog/"] {
+  font-size: 1.17em;
 }
 
 .masthead__menu-item--lg a {
