@@ -4,19 +4,21 @@ layout: default
 
 {% include base_path %}
 
-{% if page.header.overlay_color or page.header.overlay_image or page.header.image %}
-  {% include page__hero.html %}
+{% assign is_blog_post = false %}
+{% if page.collection == "posts" or page.url contains "/posts/" %}
+  {% assign is_blog_post = true %}
 {% endif %}
+
+{% unless is_blog_post %}
+  {% if page.header.overlay_color or page.header.overlay_image or page.header.image %}
+    {% include page__hero.html %}
+  {% endif %}
+{% endunless %}
 
 {% if page.url != "/" and site.breadcrumbs %}
   {% unless paginator %}
     {% include breadcrumbs.html %}
   {% endunless %}
-{% endif %}
-
-{% assign is_blog_post = false %}
-{% if page.collection == "posts" or page.url contains "/posts/" %}
-  {% assign is_blog_post = true %}
 {% endif %}
 
 <div id="main" role="main"{% if page.url == "/" %} class="home-main"{% endif %}>
@@ -81,25 +83,27 @@ layout: default
         {% if page.link %}<div><a href="{{ page.link }}" class="btn">{{ site.data.ui-text[site.locale].ext_link_label | default: "Direct Link" }}</a></div>{% endif %}
       </section>
 
-      <footer class="page__meta">
-        {% if site.data.ui-text[site.locale].meta_label %}
-          <h4 class="page__meta-title">{{ site.data.ui-text[site.locale].meta_label }}</h4>
-        {% endif %}
-        {% include page__taxonomy.html %}
-      </footer>
+      {% unless is_blog_post %}
+        <footer class="page__meta">
+          {% if site.data.ui-text[site.locale].meta_label %}
+            <h4 class="page__meta-title">{{ site.data.ui-text[site.locale].meta_label }}</h4>
+          {% endif %}
+          {% include page__taxonomy.html %}
+        </footer>
 
-      {% if page.share and is_blog_post != true %}{% include social-share.html %}{% endif %}
+        {% if page.share %}{% include social-share.html %}{% endif %}
 
-      {% include post_pagination.html %}
+        {% include post_pagination.html %}
+      {% endunless %}
     </div>
 
-    {% if site.comments.provider and page.comments %}
+    {% if site.comments.provider and page.comments and is_blog_post != true %}
       {% include comments.html %}
     {% endif %}
   </article>
 
   {% comment %}<!-- only show related on a post page when not disabled -->{% endcomment %}
-  {% if page.id and page.related and site.related_posts.size > 0 %}
+  {% if page.id and page.related and site.related_posts.size > 0 and is_blog_post != true %}
     <div class="page__related">
       {% if site.data.ui-text[site.locale].related_label %}
         <h4 class="page__related-title">{{ site.data.ui-text[site.locale].related_label | default: "You May Also Enjoy" }}</h4>

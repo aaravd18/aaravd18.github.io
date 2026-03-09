@@ -15,40 +15,38 @@ redirect_from:
     <h1 class="course-blog__title">Notes</h1>
   </section>
 
-  {% assign posts_by_year = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
   {% assign module_image = "/images/sft_vs_rl_header.png" %}
 
   <section class="course-blog__modules">
-    {% for year_group in posts_by_year %}
+    {% for post in site.posts %}
+      {% assign card_image = post.header.image | default: post.header.overlay_image | default: post.header.teaser | default: module_image %}
       <article class="course-module">
-        <div class="course-module__media" style="background-image: linear-gradient(to top, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.08)), url('{{ base_path }}{{ module_image }}');">
-          <h2 class="course-module__year" id="year-{{ year_group.name }}">{{ year_group.name }}</h2>
+        <div class="course-module__media" style="background-image: linear-gradient(to top, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.08)), url('{{ base_path }}{{ card_image }}');">
+          <!-- <h2 class="course-module__year" id="post-{{ post.slug }}">{{ post.date | date: "%Y" }}</h2> -->
         </div>
 
-        <div class="course-module__content" aria-labelledby="year-{{ year_group.name }}">
-          {% for post in year_group.items %}
-            <article class="course-post-row">
-              <header class="course-post-row__header">
-                <h3 class="course-post-row__title">
-                  <a href="{{ base_path }}{{ post.url }}" rel="permalink">{{ post.title | markdownify | remove: "<p>" | remove: "</p>" }}</a>
-                </h3>
-                <time class="course-post-row__date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time>
-              </header>
+        <div class="course-module__content" aria-labelledby="post-{{ post.slug }}">
+          <article class="course-post-row">
+            <header class="course-post-row__header">
+              <h3 class="course-post-row__title">
+                <a href="{{ base_path }}{{ post.url }}" rel="permalink">{{ post.title | markdownify | remove: "<p>" | remove: "</p>" }}</a>
+              </h3>
+              <time class="course-post-row__date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time>
+            </header>
 
-              {% assign card_excerpt = post.excerpt_text | default: post.excerpt %}
-              {% if card_excerpt %}
-                <p class="course-post-row__excerpt">{{ card_excerpt | markdownify | strip_html | strip_newlines | truncate: 150 }}</p>
+            {% assign card_excerpt = post.excerpt_text | default: post.excerpt %}
+            {% if card_excerpt %}
+              <p class="course-post-row__excerpt">{{ card_excerpt | markdownify | strip_html | strip_newlines | truncate: 150 }}</p>
+            {% endif %}
+
+            <div class="course-post-row__actions">
+              {% if post.tags and post.tags.size > 0 %}
+                {% for tag in post.tags limit: 2 %}
+                  <span class="course-chip course-chip--muted">{{ tag }}</span>
+                {% endfor %}
               {% endif %}
-
-              <div class="course-post-row__actions">
-                {% if post.tags and post.tags.size > 0 %}
-                  {% for tag in post.tags limit: 2 %}
-                    <span class="course-chip course-chip--muted">{{ tag }}</span>
-                  {% endfor %}
-                {% endif %}
-              </div>
-            </article>
-          {% endfor %}
+            </div>
+          </article>
         </div>
       </article>
     {% endfor %}
