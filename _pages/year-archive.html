@@ -31,7 +31,7 @@ redirect_from:
 
             {% assign card_excerpt = post.excerpt_text | default: post.excerpt %}
             {% if card_excerpt %}
-              <p class="course-post-row__excerpt">{{ card_excerpt | markdownify | strip_html | strip_newlines | truncate: 150 }}</p>
+              <div class="course-post-row__excerpt">{{ card_excerpt | markdownify | truncate: 150 }}</div>
             {% endif %}
 
             <div class="course-post-row__actions">

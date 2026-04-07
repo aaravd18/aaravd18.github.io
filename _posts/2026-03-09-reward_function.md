@@ -1,8 +1,11 @@
 ---
-title: "Reward Functions That Don't Behave"
+title: "On Reward Functions That Don't Behave"
 date: 2026-03-09
 permalink: /posts/art-of-the-reward-function/
-excerpt_text: "The good news: your optimizer is working. The bad news: your optimizer is working."
+excerpt_text: |
+  The good news: your optimizer is working
+  
+  The bad news: your optimizer is working
 header:
   image: /images/reward_function_header.png
 ---
