@@ -1,13 +1,13 @@
 ---
-title: "The Art of the Reward Function"
+title: "Reward Functions That Don't Behave"
 date: 2026-03-09
 permalink: /posts/art-of-the-reward-function/
-excerpt_text: A reflection on why even simple objectives can lead to surprisingly difficult reward design.
+excerpt_text: "The good news: your optimizer is working. The bad news: your optimizer is working."
 header:
   image: /images/reward_function_header.png
 ---
 
-## The Art of Designing a Reward Function
+## The Creative Ways Your Model Will Misunderstand You
 ![sft_vs_rl_header](/images/reward_function_header.png)
 
 In my [previous post](/posts/sft_vs_rl/), I used my poker research project to illustrate the relationship between supervised fine-tuning (SFT) and reinforcement learning (RL). SFT establishes the behavior space, and RL optimizes within that space.
