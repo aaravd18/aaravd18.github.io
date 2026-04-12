@@ -17,6 +17,6 @@ Over the past few years I’ve been lucky to work on a range of interesting proj
 
 More generally, I like building systems that combine research ideas with practical engineering. I’m especially drawn to problems where new ML techniques meet real-world applications.
 
-Outside of computer science, I’m a lifelong soccer player and fan (Hala Madrid). Having grown up across four different countries, I also love to travel and meet new people.
+Outside of computer science, I’m a lifelong soccer player and fan (Hala Madrid!). Having grown up across four different countries, I also love to travel and meet new people.
 
-If you're working on interesting problems in machine learning or trying to build something ambitious, I'd love to hear from you!
+If you're working on interesting problems in machine learning or trying to build something ambitious, I'd love to hear from you. I also write occasionally on my [blog](/blog/).

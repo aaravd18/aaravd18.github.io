@@ -10,51 +10,74 @@ header:
   image: /images/reward_function_header.png
 ---
 
-## The Creative Ways Your Model Will Misunderstand You
+
 ![sft_vs_rl_header](/images/reward_function_header.png)
+## The Creative Ways Your Model Will Misunderstand You
 
-In my [previous post](/posts/sft_vs_rl/), I used my poker research project to illustrate the relationship between supervised fine-tuning (SFT) and reinforcement learning (RL). SFT establishes the behavior space, and RL optimizes within that space.
+In my [previous post](/posts/sft_vs_rl/), I used my poker research to illustrate the
+relationship between supervised fine-tuning and reinforcement learning. SFT establishes a behaviour, and RL optimizes it.
 
-Once we moved into the RL phase of the project, though, a different challenge came into focus. If reinforcement learning is supposed to improve the model’s decisions, the logical question is: improve according to what criteria?
+Once we moved into the RL phase, a different problem came into focus. If RL is supposed
+to improve the model's decisions, the obvious question is: improve according to what criteria?
 
 In RL, that answer is the reward function.
 
-At first glance this part seemed straightforward for us. Poker has a clear objective - win chips. In our setup, the reward signal ultimately came from chip gain measured by the solver. In principle, that should provide a clean signal about whether a strategy adjustment improves performance.
+---
+### A simple reward function
+The reward function has a simple premise - assign a number to each output that tells the model how good it was. Higher is better. The model tries to get that number as high as possible, by any means necessary.
 
-But the interaction between the model and the solver made things more complicated.
+Poker is nice for reinforcement learning because it has a clear, quantifiable objective: win chips. In our setup, the model was given a poker solver's strategy as a starting point and asked to modify it to exploit the opponent's tendencies. In principle, straightforward. 
 
-By the time we began reinforcement learning, the model had already gone through SFT. During that stage we trained it to produce strategies in a strict format that the poker solver could interpret.
+---
+### What the model actually did
 
-Supervised training worked well for this. The model learned the structure of the outputs and could reliably produce solver-compatible strategies.
+Malformatted outputs received zero reward. So the model learned quickly that a small,
+safe, valid change beat a creative but potentially broken one. It's statistically sound -
+consistent average reward from boring decisions outperformed the risk of attempting
+something ambitious and getting nothing.
 
-The difficulty appeared once RL began. Now the model had two goals at once. It needed to modify strategies in ways that improved chip gain, but it also needed to stay within the formatting rules it had learned during SFT.
+So that's what it learned.
 
-Whenever the format drifted, the solver simply couldn’t run. If the solver couldn’t evaluate the strategy, there was no chip result and therefore no reward.
+As training progressed, it regressed to making the smallest possible modification to the solver output, collected average
+reward, and never actually attempted to exploit anyone.
 
-Early in training this happened often. While exploring different strategies, the model would occasionally break the format constraints, which meant the output could not be evaluated at all. Many attempts therefore looked identical from the model’s perspective, because they all produced zero reward.
+<p style="margin-bottom: 10px;">My reaction:</p>
+<img src="/images/mike.png" width="160" style="display: block; margin-left: 0; margin-top: 0">
 
-When the feedback signal collapses like this, learning becomes difficult. The model cannot easily tell whether one attempt was closer to the objective than another.
+---
+### Whack-a-mole
 
-A natural response is to make the reward signal more forgiving. Instead of rewarding only perfectly valid outputs, you can introduce intermediate signals that reward partial progress.
+The natural response is to patch the reward function. For example, penalize minimal changes, and reward
+more aggressive exploitation.
 
-But doing this introduces its own trade-offs.
+But close one shortcut and the model finds another. It's kind of like whack-a-mole,
+except our mole is a 3 billion parameter language model and the hammer is our reward
+function. The issue isn't any specific loophole, but rather: 
 
-Optimization systems tend to take the most direct path to reward. If there is a way to collect reward without genuinely improving the behavior you care about, the model will eventually discover it.
+> The model optimizes for the numerical reward, not the intention behind it.
 
-In our case the goal was to generate strategies that actually exploited an opponent. But if the reward became too loosely defined, the model could drift toward outputs that satisfied parts of the reward signal while still being strategically weak. The system was still optimizing the reward, just not in the way we wanted it to. 
+With this in mind, designing a reward function is less like engineering and more like cooking. 
+You have your ingredients – format correctness, output length, exploitation quality, solver deviation
+– and you need to find the right balance.
 
-Designing a reward function ends up being an exercise in balancing these pressures. If the reward is too strict, the learning signal becomes sparse and the model struggles to improve. If it becomes too forgiving, the model may settle into shortcuts that maximize reward without improving the underlying behavior.
 
-Somewhere between those two extremes is a reward signal that provides enough guidance for the model to learn while still reflecting the real objective closely enough. And finding that balance rarely happens on the first attempt.
+---
+### Where we're at now
 
-In practice the process becomes iterative. You define a reward signal, train the model, observe the behavior it learns, and then refine the reward to correct whatever unintended incentives appear.
+We made progress by increasing the quantity and quality of our SFT data (huge impact), 
+adding penalties on short outputs, and editing the reward formula.
 
-Each iteration reveals another edge case. In that sense the model acts almost like a stress test for your objective: by pushing the reward signal as hard as possible, it exposes where the signal fails to capture what you actually want.
+But this is less a solved problem and more a stable configuration.
+Whether it's good enough to produce a winning poker AI is a question we're still working on.
 
-Working on this project made something clear to me. Designing a reward function is really a small version of the broader alignment problem in AI.
+Which is the point, really. Designing a reward function is a small version of the
+alignment problem. You cannot optimize directly for the thing you care about, so you
+approximate it as best as you can.
 
-In most real systems we cannot optimize directly for the thing we care about. Instead we define measurable proxies and hope they capture the objective well enough. The difficulty is that optimization systems treat those proxies literally.
+This shows up everywhere. Models trained on human feedback learn to agree with you
+because agreement gets rewarded. Tell the model it is wrong and it apologizes. Tell it
+you prefer a different answer and it changes its mind. Not because the new answer is
+better, but because humans respond well to validation and the model has learned this
+about us. 
 
-> They optimize the signal you specify, not the intention behind it.
-
-Even in a relatively contained setting like poker, translating a simple objective (win chips) into a reward signal that reliably guides learning turns out to be more subtle than it first appears. And in real-world settings, where the objective is often less clear-cut, the care required in designing that signal only increases.
+Getting models to do what we actually want is an open problem and an exciting one. 
