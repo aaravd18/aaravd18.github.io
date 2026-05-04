@@ -10,7 +10,7 @@ header:
   image: /images/reward_function_header.png
 ---
 In my [previous post](/posts/sft_vs_rl/), I used my poker research to illustrate the
-relationship between supervised fine-tuning and reinforcement learning. SFT establishes a behaviour, and RL optimizes it.
+relationship between supervised fine-tuning and reinforcement learning. SFT establishes a behavior, and RL optimizes it.
 
 Once we moved into the RL phase, a different problem came into focus. If RL is supposed
 to improve the model's decisions, the obvious question is: improve according to what criteria?
