@@ -34,12 +34,61 @@
   }
 }
 
+// Blog posts have no sidebar — undo Susy's float/padding so auto-margin centering works.
+.page--post {
+  @include breakpoint($large) {
+    float: none;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .page__inner-wrap {
+    float: none;
+  }
+
+  .page__inner-wrap .page__content {
+    float: none;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 .page__title {
   margin-top: 0;
   line-height: 1;
 
   & + .page__meta {
     margin-top: -0.5em;
+  }
+}
+
+.page__header--post {
+  max-width: 72ch;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+
+  .page__title {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: clamp(1.85rem, 4vw, 2.6rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+}
+
+.page__byline {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  color: var(--global-text-color-light);
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+
+  time {
+    font-style: normal;
   }
 }
 
@@ -59,17 +108,8 @@
     font-size: 1em;
   }
 
-  /* paragraph indents */
   p {
     margin: 0 0 $indent-var;
-
-    /* sibling indentation*/
-    @if $paragraph-indent == true {
-      & + p {
-        text-indent: $indent-var;
-        margin-top: -($indent-var);
-      }
-    }
   }
 
   a {
@@ -111,6 +151,7 @@
   max-width: 72ch;
   margin-left: auto;
   margin-right: auto;
+  font-family: 'Source Serif 4', Georgia, serif;
   font-size: 1.06rem;
   line-height: 1.8;
 
@@ -121,32 +162,35 @@
   h2,
   h3,
   h4 {
-    line-height: 1.3;
+    font-family: 'Newsreader', Georgia, serif;
+    line-height: 1.25;
     border-bottom: 0;
     padding-bottom: 0;
-    margin-top: 2.2rem;
-    margin-bottom: 0.8rem;
+    margin-top: 2.6rem;
+    margin-bottom: 0.6rem;
   }
 
   h2 {
-    font-size: clamp(1.5rem, 2.1vw, 1.9rem);
-    border-top: 1px solid var(--global-border-color);
-    padding-top: 1.2rem;
+    font-size: clamp(1.4rem, 2.1vw, 1.75rem);
+    font-weight: 600;
+    letter-spacing: -0.015em;
   }
 
   h3 {
-    font-size: clamp(1.2rem, 1.6vw, 1.45rem);
+    font-size: clamp(1.15rem, 1.6vw, 1.35rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   h4 {
-    font-size: clamp(1.05rem, 1.25vw, 1.25rem);
+    font-size: clamp(1rem, 1.25vw, 1.15rem);
+    font-weight: 500;
   }
 
   p,
   li,
   dd {
     font-size: 1.03em;
-    line-height: 1.8;
   }
 
   ul,
@@ -202,6 +246,11 @@
   table {
     width: 100%;
     margin: 1.5rem 0;
+  }
+
+  > p:first-child {
+    font-size: 1.13em;
+    line-height: 1.75;
   }
 
   @include breakpoint(max-width $small) {
