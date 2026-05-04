@@ -9,11 +9,6 @@ excerpt_text: |
 header:
   image: /images/reward_function_header.png
 ---
-
-
-![sft_vs_rl_header](/images/reward_function_header.png)
-## The Creative Ways Your Model Will Misunderstand You
-
 In my [previous post](/posts/sft_vs_rl/), I used my poker research to illustrate the
 relationship between supervised fine-tuning and reinforcement learning. SFT establishes a behaviour, and RL optimizes it.
 
@@ -22,14 +17,13 @@ to improve the model's decisions, the obvious question is: improve according to 
 
 In RL, that answer is the reward function.
 
----
-### A simple reward function
+## A simple reward function
+
 The reward function has a simple premise - assign a number to each output that tells the model how good it was. Higher is better. The model tries to get that number as high as possible, by any means necessary.
 
 Poker is nice for reinforcement learning because it has a clear, quantifiable objective: win chips. In our setup, the model was given a poker solver's strategy as a starting point and asked to modify it to exploit the opponent's tendencies. In principle, straightforward. 
 
----
-### What the model actually did
+## What the model actually did
 
 Malformatted outputs received zero reward. So the model learned quickly that a small,
 safe, valid change beat a creative but potentially broken one. It's statistically sound -
@@ -42,10 +36,9 @@ As training progressed, it regressed to making the smallest possible modificatio
 reward, and never actually attempted to exploit anyone.
 
 <p style="margin-bottom: 10px;">My reaction:</p>
-<img src="/images/mike.png" width="160" style="display: block; margin-left: 0; margin-top: 0">
+<img src="/images/mike.png" width="160" style="display: block; margin-left: 0; margin-top: 0; margin-bottom: 2rem;">
 
----
-### Whack-a-mole
+## Whack-a-mole
 
 The natural response is to patch the reward function. For example, penalize minimal changes, and reward
 more aggressive exploitation.
@@ -60,9 +53,7 @@ With this in mind, designing a reward function is less like engineering and more
 You have your ingredients – format correctness, output length, exploitation quality, solver deviation
 – and you need to find the right balance.
 
-
----
-### Where we're at now
+## Where we're at now
 
 We made progress by increasing the quantity and quality of our SFT data (huge impact), 
 adding penalties on short outputs, and editing the reward formula.
