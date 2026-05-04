@@ -18,12 +18,12 @@ html {
 body {
   background: radial-gradient(circle at top right, #f7f7f7, var(--course-bg) 45%);
   color: var(--course-text);
-  font-family: "IBM Plex Sans", "Avenir Next", "Segoe UI", sans-serif;
+  font-family: 'Source Serif 4', Georgia, serif;
 }
 
 .masthead {
   background: var(--course-bg);
-  border-bottom: 0;
+  border-bottom: 1px solid var(--course-border);
 }
 
 .masthead::after {
@@ -33,6 +33,7 @@ body {
 .masthead__inner-wrap,
 .greedy-nav {
   background: var(--course-bg);
+  max-width: 1240px;
 }
 
 .masthead__menu-item,
@@ -41,18 +42,27 @@ body {
 }
 
 .masthead__menu-item a {
-  font-weight: 600;
+  font-weight: 400;
+  font-size: 0.9rem;
+  letter-spacing: 0.015em;
+  color: #666;
+  transition: color 0.15s ease;
 }
 
-.masthead__menu-item a[href$="/blog/"] {
-  font-size: 1.17em;
+.masthead__menu-item a:hover {
+  color: #111;
+}
+
+.masthead__menu-item--lg {
+  margin-left: -0.65rem;
 }
 
 .masthead__menu-item--lg a {
-  font-family: "Space Grotesk", "Avenir Next", "Segoe UI", sans-serif;
-  font-size: 2.2rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  color: #111;
 }
 
 #main {
@@ -121,7 +131,7 @@ body {
 
 .archive .page__title,
 .page .page__title {
-  font-family: "Space Grotesk", "Avenir Next", "Segoe UI", sans-serif;
+  font-family: 'Newsreader', Georgia, serif;
   font-weight: 700;
   letter-spacing: -0.02em;
   margin-bottom: 1.1rem;
@@ -211,56 +221,25 @@ body {
 }
 
 .course-blog__modules {
-  display: grid;
-  gap: 1.4rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .course-module {
-  display: grid;
-  grid-template-columns: minmax(220px, 33%) 1fr;
-  border: 1px solid var(--course-border);
-  border-radius: 18px;
-  overflow: hidden;
-  background: var(--course-paper);
+  border-bottom: 1px solid var(--course-border);
 }
 
-.course-module__media {
-  min-height: 300px;
-  background-size: cover;
-  background-position: center;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 1.3rem;
-}
-
-.course-module__label {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.78rem;
-  opacity: 0.9;
-}
-
-.course-module__year {
-  margin: 0.35rem 0 0;
-  font-family: "Space Grotesk", "Avenir Next", "Segoe UI", sans-serif;
-  font-size: 2.1rem;
-  line-height: 1;
+.course-module:first-child {
+  border-top: 1px solid var(--course-border);
 }
 
 .course-module__content {
-  padding: 0.95rem;
-  background: #f1f1f1;
   display: flex;
   flex-direction: column;
 }
 
 .course-post-row {
-  background: var(--course-card);
-  border-radius: 12px;
-  padding: 1rem;
+  padding: 1.6rem 0;
   display: flex;
   flex-direction: column;
 }
@@ -282,23 +261,39 @@ body {
 
 .course-post-row__title {
   margin: 0;
-  font-size: 1.35rem;
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 600;
   letter-spacing: -0.015em;
+  line-height: 1.25;
 }
 
 .course-post-row__title a {
   color: #111;
   border-bottom: 0;
+  transition: color 0.15s ease;
+}
+
+.course-post-row__title a:hover {
+  color: #555;
+  border-bottom: 0;
 }
 
 .course-post-row__date {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
   color: var(--course-muted-soft);
   white-space: nowrap;
-  font-size: 0.95rem;
 }
 
 .course-post-row__excerpt {
-  margin: 0.55rem 0 0;
+  margin: 0.5rem 0 0;
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.7;
   color: #4f4f4f;
 }
 
@@ -307,18 +302,17 @@ body {
 }
 
 .course-post-row__actions {
-  margin-top: auto;
-  padding-top: 0.85rem;
+  margin-top: 0.75rem;
   display: flex;
-  gap: 0.55rem;
+  gap: 0.45rem;
   flex-wrap: wrap;
 }
 
 .course-chip {
-  border-radius: 10px;
-  padding: 0.46rem 0.82rem;
-  font-size: 0.91rem;
-  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.3rem 0.72rem;
+  font-size: 0.8rem;
+  font-weight: 500;
   border: 1px solid transparent;
   line-height: 1;
   text-decoration: none;
@@ -353,16 +347,6 @@ body {
   border-color: #e7e7e7;
 }
 
-@media (max-width: 900px) {
-  .course-module {
-    grid-template-columns: 1fr;
-  }
-
-  .course-module__media {
-    min-height: 230px;
-  }
-
-}
 
 @media (max-width: 640px) {
   .course-post-row__header {

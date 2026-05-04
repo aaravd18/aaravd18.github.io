@@ -9,17 +9,10 @@ redirect_from:
 
 {% include base_path %}
 
-<div class="course-blog" role="region" aria-label="Blog schedule">
-  {% assign module_image = "/images/sft_vs_rl_header.png" %}
-
+<div class="course-blog" role="region" aria-label="Blog posts">
   <section class="course-blog__modules">
     {% for post in site.posts %}
-      {% assign card_image = post.header.image | default: post.header.overlay_image | default: post.header.teaser | default: module_image %}
       <article class="course-module">
-        <div class="course-module__media" style="background-image: linear-gradient(to top, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.08)), url('{{ base_path }}{{ card_image }}');">
-          <!-- <h2 class="course-module__year" id="post-{{ post.slug }}">{{ post.date | date: "%Y" }}</h2> -->
-        </div>
-
         <div class="course-module__content" aria-labelledby="post-{{ post.slug }}">
           <article class="course-post-row">
             <header class="course-post-row__header">
