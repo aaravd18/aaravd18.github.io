@@ -5,6 +5,11 @@
 <!-- Support for Academicons -->
 <link rel="stylesheet" href="{{ base_path }}/assets/css/academicons.css"/>
 
+{% if page.chess_viewer %}
+<!-- Chess game viewer -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+{% endif %}
+
 <!-- favicon from https://commons.wikimedia.org/wiki/File:OOjs_UI_icon_academic-progressive.svg -->
 <link rel="apple-touch-icon" sizes="180x180" href="{{ base_path }}/images/apple-touch-icon-180x180.png"/>
 <link rel="icon" type="image/svg+xml" href="{{ base_path }}/images/favicon.svg"/>
