@@ -47,14 +47,14 @@ I trained for ~14M positions total, roughly four epochs over the training set. T
 
 ## Initial Evaluation
 
-In evaluation games against a Stockfish engine set to 1400 Elo, it scored approximately 50% over a 100-game match. This rating should be interpreted loosely since Stockfish’s weakened play at short time controls is not human-like.
+In evaluation games against a Stockfish engine set to 1450 Elo, it scored approximately 50% over a 100-game match. This rating should be interpreted loosely since Stockfish’s weakened play is not very human-like.
 
 On 20,000 held-out validation positions:
 
 - **Legality:** The model outputs a legal move 99.8% of the time. So the model has learned a baseline understanding of the rules without ever being told them explicitly
 - **Accuracy:** Model predicts the human move 49% of the time. The human move is in the model's top three choices 77.6% of the time and in the top five 87.7% of the time.
 
-In testing, the model consistently followed main-line theory in openings such as the Sicilian, Ruy Lopez, French Defense, and Caro–Kann. Its opening play is noticeably stronger than what a typical human at this playing level would possess, and it can recall surprisingly deep theory. At the same time, it makes silly oversights that would look unusual for any human of comparable strength, giving the model a somewhat uneven but very interesting playing style.
+In testing, the model consistently followed main-line theory in any opening it faced. Its opening repertoire and positional play is noticeably stronger than what a typical human at this playing level would possess. At the same time, it is prone to simple blunders that would look unusual for any human of comparable strength, giving the model a somewhat uneven but very interesting playing style.
 
 Importantly, this is close to the capability level we want for interpretability work. The model is strong enough to internalize meaningful chess concepts, and simple enough that we may be able to isolate and understand the mechanisms behind its decisions.
 
