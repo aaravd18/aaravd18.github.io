@@ -81,4 +81,4 @@ An interesting sequence starts after [27... Kd7](#ply-54) as both white's bishop
 
 ## What's Next
 
-I've posted the full codebase and implementation details on [Github](https://github.com/aaravd18/transformer-chess). The next phase of the project is understanding how our trained model actually reasons about chess. In the next post, I’ll use some classic mechanistic interpretability techniques to open the model up and explore its internal representations of the game.
+I've posted the full codebase and implementation details on [Github](https://github.com/aaravd18/transformer-chess). Following from the preview at the top, the next post uses some classic mechanistic interpretability techniques to open the model up and explore its internal representations of the game.
