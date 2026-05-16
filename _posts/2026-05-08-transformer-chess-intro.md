@@ -16,9 +16,8 @@ In this mini-series, I train a transformer to predict the next move in real ches
   <figcaption class="image-caption">A peek inside: In a Ruy Lopez position, one attention head focuses the bishop along its pinning diagonal.</figcaption>
 </figure>
 
-The model is not explicitly taught tactics, strategy, or even how the pieces move. It only sees board positions and the moves strong players chose next. And yet, if it becomes good at chess, something inside the network must be encoding the abstractions necessary to make strong decisions. Having played the game competitively growing up, I'm especially curious whether the model's internal concepts line up with the ones I learned over the board.
 
-
+The model is not explicitly taught tactics, strategy, or even how the pieces move. It only sees board positions and the moves strong players chose next. And yet, to play well, something inside the network must be encoding the abstractions needed to understand the game. The image above is one small glimpse of that understanding.
 
 Rather than using an existing architecture, I built the full pipeline from scratch to tailor it for interpretability. This first post focuses on the core design decisions and training that lays the foundation for my interpretability experiments in later posts. There's also an annotated game at the end showing how the trained model plays.
 
