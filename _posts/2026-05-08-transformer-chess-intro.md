@@ -57,7 +57,7 @@ In evaluation games against a Stockfish engine set to 1450 Elo, it scored approx
 
 On 20,000 held-out validation positions:
 
-- **Legality:** The model outputs a legal move 99.8% of the time. So the model has learned a baseline understanding of the rules without ever being told them explicitly
+- **Legality:** The model outputs a legal move 99.8% of the time. Meaning it has learned a baseline understanding of the rules without ever being told them explicitly.
 - **Accuracy:** Model predicts the human move 49% of the time. The human move is in the model's top three choices 77.6% of the time and in the top five 87.7% of the time.
 
 In testing, the model consistently followed main-line theory in any opening it faced. Its opening repertoire and positional play is noticeably stronger than what a typical human at this playing level would possess. At the same time, it is prone to simple blunders that would look unusual for any human of comparable strength, giving the model a somewhat uneven but very interesting playing style.
