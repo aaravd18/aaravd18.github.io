@@ -118,6 +118,30 @@ img.piece-417db {
   line-height: 1.5;
 }
 
+.page__content figure.image-with-caption {
+  display: block;
+  width: var(--image-caption-width, fit-content);
+  max-width: 100%;
+  margin: 1.7rem auto;
+}
+
+.page__content figure.image-with-caption > img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 0.8rem;
+}
+
+.page__content figure.image-with-caption > .image-caption {
+  width: 100%;
+  margin: 0;
+  color: #222;
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
 .page__content .chess-viewer-caption a[href^="#ply-"],
 .page__content .chess-viewer__caption a[href^="#ply-"],
 .page__content--post .chess-viewer__ply-link {

@@ -11,7 +11,14 @@ Does it develop concepts humans would recognize, like forks or pins? Or does it 
 
 In this mini-series, I train a transformer to predict the next move in real chess games, then dissect the network to see what it learned. This is the project of mechanistic interpretability, i.e reverse-engineering neural networks to understand what algorithms their weights actually implement.
 
-Chess is an interesting place to explore this. The model is not explicitly taught tactics, strategy, or even how the pieces move. It only sees board positions and the moves strong players chose next. And yet, if it becomes good at chess, something inside the network must be encoding the abstractions necessary to make strong decisions. Having played the game competitively growing up, I'm especially curious whether the model's internal concepts line up with the ones I learned over the board.
+<figure class="image-with-caption" style="--image-caption-width: 480px;">
+  <img src="/images/ruy-lopez-teaser.png" alt="">
+  <figcaption class="image-caption">A peek inside: In a Ruy Lopez position, one attention head focuses the bishop along its pinning diagonal.</figcaption>
+</figure>
+
+The model is not explicitly taught tactics, strategy, or even how the pieces move. It only sees board positions and the moves strong players chose next. And yet, if it becomes good at chess, something inside the network must be encoding the abstractions necessary to make strong decisions. Having played the game competitively growing up, I'm especially curious whether the model's internal concepts line up with the ones I learned over the board.
+
+
 
 Rather than using an existing architecture, I built the full pipeline from scratch to tailor it for interpretability. This first post focuses on the core design decisions and training that lays the foundation for my interpretability experiments in later posts. There's also an annotated game at the end showing how the trained model plays.
 
