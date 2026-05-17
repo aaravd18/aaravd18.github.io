@@ -7,9 +7,9 @@ chess_viewer: true
 ---
 What does a neural network actually learn when it learns to play chess?
 
-Does it develop concepts humans would recognize, like forks or pins? Or does it arrive at strong play through representations that look very different from our own?
+Does it develop concepts humans would recognize, like forks or pins? Or does it arrive at strong play through representations that look very different from our own? 
 
-In this mini-series, I train a transformer to predict the next move in real chess games, then dissect the network to see what it learned. This is the project of mechanistic interpretability, i.e reverse-engineering neural networks to understand what algorithms their weights actually implement.
+In this mini-series, I train a transformer to predict the next move in real chess games, then reverse engineer it to see what it learned.
 
 <figure class="image-with-caption" style="--image-caption-width: 480px;">
   <img src="/images/ruy-lopez-teaser.png" alt="">
@@ -17,26 +17,26 @@ In this mini-series, I train a transformer to predict the next move in real ches
 </figure>
 
 
-The model is not explicitly taught tactics, strategy, or even how the pieces move. It only sees board positions and the moves strong players chose next. And yet, to play well, something inside the network must be encoding the abstractions needed to understand the game. The image above is one small glimpse of that understanding.
+The model is not explicitly taught tactics, strategy, or even how the pieces move. It only sees board positions and the moves strong players chose next. And yet, if it learns to play good chess, something inside the network must be encoding the abstractions needed to understand it. The image above is one small glimpse of that understanding.
 
-Rather than using an existing architecture, I built the full pipeline from scratch to tailor it for interpretability. This first post focuses on the core design decisions and training that lays the foundation for my interpretability experiments in later posts. There's also an annotated game at the end showing how the trained model plays.
+To explore this, I designed my own model and trained it from scratch, tailoring it for interpretability. This first post covers that process and the choices behind the model I dissect in later posts. 
 
 ## Architecture
-While the strongest chess engines currently use a combination of tree search with neural network evaluations, the transformer is a much more natural fit for interpretability work. The board has 64 squares, so we can represent a position as a fixed-length sequence where each token corresponds to a physical square. This gives attention patterns a direct correspondence to interactions between squares, while each position in the residual stream continues to represent the same square throughout the network. 
+While the strongest chess engines currently use a combination of tree search with neural network evaluations, the transformer is a much more natural fit for interpretability work. The board has 64 squares, so we can represent a position as a fixed-length sequence where each token corresponds to a physical square. Each position in the residual stream thus represents the same square throughout the network, while attention patterns map directly to interactions between squares.
 
-My base model is a fairly standard transformer with ~6.5M params: 8 layers, 8 heads, d<sub>model</sub> = 256, d<sub>ffn</sub> = 1024, bidirectional attention. While [Leela](https://arxiv.org/abs/2409.12272) (the SoTA chess transformer) uses post-norm with scaling, I used pre-norm to preserve a cleaner additive residual stream, which makes attention-head and MLP contributions easier to isolate. Leela also uses a much smaller FFN-to-d<sub>model</sub> ratio than is standard, but I kept mine at the conventional 4x. In general I wanted to avoid domain-specific tricks or inductive biases so the focus stays on what a vanilla architecture learns.
+My core model is a small transformer with bidirectional attention: 8 layers, 8 heads, d<sub>model</sub> = 256, d<sub>ffn</sub> = 1024, and ~6.5 million parameters. While [Leela](https://arxiv.org/abs/2409.12272) (the SoTA chess transformer) uses post-norm with scaling, I used pre-norm to preserve a cleaner additive residual stream, which makes attention-head and MLP contributions easier to isolate. Leela also uses a much smaller FFN-to-d<sub>model</sub> ratio than is standard, but I kept mine at the conventional 4x. In general, I avoided most domain-specific tricks or inductive biases and focused on keeping the architecture interpretable.
 
 ## Tokenization
 Each board position is converted to a 68-token sequence: 64 square tokens (empty, or one of 12 piece/color combinations), plus a few auxiliary tokens for castling rights, en passant, and the halfmove clock. 
 
-Some interesting work has gone the other direction – feeding move notation into a standard language model and having it predict the next move as text. This forces the model to construct an internal representation of the board from move history before it can reason about it, and [Adam Karvonen showed](https://adamkarvonen.github.io/machine_learning/2024/01/03/chess-world-models.html) that the model actually does this. However, tokenizing the board skips that reconstruction step and lets the model spend all its capacity on reasoning about the position itself. Since a chess position is fully determined by the current board state, its evaluation should not depend on the moves that were played to reach it, making direct board tokenization a more natural representation for position evaluation.
+Some prior work instead feeds move history into a language model and has it predict the next move as text. In that setting, the model must first reconstruct the board state internally before it can reason about it, and [Adam Karvonen's work on chess world models](https://adamkarvonen.github.io/machine_learning/2024/01/03/chess-world-models.html) showed that transformers actually learn to do this. I instead tokenize the board directly, since chess evaluation depends primarily on the current game state rather than the move history that produced it. This lets the model spend its capacity reasoning about positions rather than reconstructing them.
 
-I also canonicalize every position to "white to move" by mirroring the board on black-to-play positions, which halves the state space the model has to cover. Features and heads can then specialize to chess concepts instead of learning two mirrored copies of each one.
+I also canonicalize every position to “white to move” by mirroring black-to-play positions. This halves the effective state space and avoids learning mirrored versions of the same pattern. 
 
 ## Policy Head
-The model needs to predict a move, which decomposes naturally into a source square and a target square. Two MLPs operate on the final residual stream – one projects each square's embedding into a "source" representation, the other into a "target" representation. Their dot product gives a 64×64 matrix where entry (i, j) is the logit for moving the piece on square i to square j. Pawn promotions also need an extra choice of piece so a small classifier on the source representation predicts that separately.
+The model predicts a move by decomposing it into a source square and a target square. Two MLPs operate on the final residual stream – one projects each square's embedding into a "source" representation, the other into a "target" representation. Their dot product gives a 64×64 matrix where entry (i, j) is the logit for moving the piece on square i to square j. Pawn promotions require an additional piece prediction, which is handled by a small classifier on the source representation.
 
-The two MLPs share their first layer, with the idea that whatever makes a square interesting as a source likely also makes it interesting as a target. The structure follows [Leela's policy head](https://arxiv.org/abs/2409.12272).
+The two MLPs share their first layer, based on the intuition that features useful for identifying source squares are likely also useful for identifying targets. The overall structure follows [Leela's policy head](https://arxiv.org/abs/2409.12272).
 
 ## Data
 I pulled 50,000 games from the [Lichess open database](https://database.lichess.org/), filtered to games where both players were rated 1800+ (roughly the top 15–20% of players) and the time control gave each player at least three minutes. The filters keep the dataset focused on strong, deliberate play.
@@ -60,11 +60,11 @@ On 20,000 held-out validation positions:
 - **Legality:** The model outputs a legal move 99.8% of the time. Meaning it has learned a baseline understanding of the rules without ever being told them explicitly.
 - **Accuracy:** Model predicts the human move 49% of the time. The human move is in the model's top three choices 77.6% of the time and in the top five 87.7% of the time.
 
-In testing, the model consistently followed main-line theory in any opening it faced. Its opening repertoire and positional play is noticeably stronger than what a typical human at this playing level would possess. At the same time, it is prone to simple blunders that would look unusual for any human of comparable strength, giving the model a somewhat uneven but very interesting playing style.
+I also tested the model against myself, friends, and engines. Its opening repertoire and positional play are noticeably stronger than those of a typical human at this playing level. At the same time, it's tactically fragile and prone to simple blunders. It also struggles to convert winning positions, likely because strong human games often end in resignation before checkmate appears on the board. I hypothesize that these weaknesses reflect the training distribution of precise, positional games, and would be reduced by augmenting the data with puzzles and mating positions.
 
-Importantly, this is close to the capability level we want for interpretability work. The model is strong enough to internalize meaningful chess concepts, and simple enough that we may be able to isolate and understand the mechanisms behind its decisions.
+The model’s uneven capabilities actually make it interesting for interpretability work. It is strong enough to learn meaningful chess concepts, yet shows clear weaknesses that we may be able to trace internally.
 
-Here's one illustrative game against Stockfish at a weakened setting. The model seizes the center with principled offensive chess, and shows some nice tactical reasoning to dismantle an opponent whose play, quite fittingly, resembles a bot's:
+Here’s one interesting game against a weak version of Stockfish. The model plays principled, aggressive chess and even finds some nice tactical ideas against an opponent whose style, quite fittingly, resembles a bot’s:
 
 ```pgn
 [Date "2026.05.08"]
