@@ -16,10 +16,9 @@ In this mini-series, I train a transformer to predict the next move in real ches
   <figcaption class="image-caption">A peek inside: In a Ruy Lopez position, one attention head focuses the bishop along its pinning diagonal.</figcaption>
 </figure>
 
+The model is not explicitly taught tactics, strategy, or even how the pieces move. It only sees board positions and the moves strong players chose next. And yet, if it learns to play the game well, something inside the network must be encoding the abstractions needed to understand it.
 
-The model is not explicitly taught tactics, strategy, or even how the pieces move. It only sees board positions and the moves strong players chose next. And yet, if it learns to play good chess, something inside the network must be encoding the abstractions needed to understand it. The image above is one small glimpse of that understanding.
-
-To explore this, I designed my own model and trained it from scratch, tailoring it for interpretability. This first post covers that process and the choices behind the model I dissect in later posts. 
+This first post covers the design decisions, training process, and initial evaluation of the model.
 
 ## Architecture
 While the strongest chess engines currently use a combination of tree search with neural network evaluations, the transformer is a much more natural fit for interpretability work. The board has 64 squares, so we can represent a position as a fixed-length sequence where each token corresponds to a physical square. Each position in the residual stream thus represents the same square throughout the network, while attention patterns map directly to interactions between squares.
@@ -29,7 +28,7 @@ My core model is a small transformer with bidirectional attention: 8 layers, 8 h
 ## Tokenization
 Each board position is converted to a 68-token sequence: 64 square tokens (empty, or one of 12 piece/color combinations), plus a few auxiliary tokens for castling rights, en passant, and the halfmove clock. 
 
-Some prior work instead feeds move history into a language model and has it predict the next move as text. In that setting, the model must first reconstruct the board state internally before it can reason about it, and [Adam Karvonen's work on chess world models](https://adamkarvonen.github.io/machine_learning/2024/01/03/chess-world-models.html) showed that transformers actually learn to do this. I instead tokenize the board directly, since chess evaluation depends primarily on the current game state rather than the move history that produced it. This lets the model spend its capacity reasoning about positions rather than reconstructing them.
+Some prior work instead feeds move history into a language model and has it predict the next move as text. In that setting the model must first reconstruct the board state internally before it can reason about it, and [Adam Karvonen's work on chess world models](https://adamkarvonen.github.io/machine_learning/2024/01/03/chess-world-models.html) showed that transformers actually learn to do this. I instead tokenize the board directly, since chess evaluation depends primarily on the current game state rather than the move history that produced it. This lets the model spend its capacity reasoning about positions rather than reconstructing them.
 
 I also canonicalize every position to “white to move” by mirroring black-to-play positions. This halves the effective state space and avoids learning mirrored versions of the same pattern. 
 
@@ -39,7 +38,7 @@ The model predicts a move by decomposing it into a source square and a target sq
 The two MLPs share their first layer, based on the intuition that features useful for identifying source squares are likely also useful for identifying targets. The overall structure follows [Leela's policy head](https://arxiv.org/abs/2409.12272).
 
 ## Data
-I pulled 50,000 games from the [Lichess open database](https://database.lichess.org/), filtered to games where both players were rated 1800+ (roughly the top 15–20% of players) and the time control gave each player at least three minutes. The filters keep the dataset focused on strong, deliberate play.
+I pulled 50,000 games from the [Lichess Open Database](https://database.lichess.org/), filtered to games where both players were rated 1800+ and the time control gave each player at least three minutes. The filters keep the dataset focused on strong, deliberate play.
 
 That gave me ~3.75M board positions (≈75 plies per game), split 3.5M train / 0.25M validation.
 
@@ -47,7 +46,7 @@ That gave me ~3.75M board positions (≈75 plies per game), split 3.5M train / 0
 
 The model is trained to predict the move the human played. Training on Stockfish evaluations would yield a stronger model, but maximal playing strength isn't the goal here so strong human moves suffice.
 
-The loss is a flat 4096-way cross-entropy over all (from, to) square pairs. I don't mask out illegal moves at training time so that legal piece movement is learned and represented somewhere in the weights.
+The loss is a 4096-way cross-entropy over all (from, to) square pairs. I intentionally avoid masking illegal moves at training time so that legal piece movement is learned and represented somewhere in the weights.
 
 I trained for ~14M positions total, roughly four epochs over the training set. Thanks to a relatively small architecture and an optimized training pipeline, validation loss plateaued after only about an hour of training on a single L4 GPU.
 
@@ -57,14 +56,14 @@ In evaluation games against a Stockfish engine set to 1450 Elo, it scored approx
 
 On 20,000 held-out validation positions:
 
-- **Legality:** The model outputs a legal move 99.8% of the time. Meaning it has learned a baseline understanding of the rules without ever being told them explicitly.
+- **Legality:** The model outputs a legal move 99.8% of the time, meaning it has internalized the rules without being told them explicitly.
 - **Accuracy:** Model predicts the human move 49% of the time. The human move is in the model's top three choices 77.6% of the time and in the top five 87.7% of the time.
 
 I also tested the model against myself, friends, and engines. Its opening repertoire and positional play are noticeably stronger than those of a typical human at this playing level. At the same time, it's tactically fragile and prone to simple blunders. It also struggles to convert winning positions, likely because strong human games often end in resignation before checkmate appears on the board. I hypothesize that these weaknesses reflect the training distribution of precise, positional games, and would be reduced by augmenting the data with puzzles and mating positions.
 
-The model’s uneven capabilities actually make it interesting for interpretability work. It is strong enough to learn meaningful chess concepts, yet shows clear weaknesses that we may be able to trace internally.
+The model’s uneven capabilities actually make it especially interesting for interpretability work. It is strong enough to learn meaningful chess concepts, yet weak enough that its failures remain visible. Rather than treating these weaknesses as noise, they may expose where the model’s internal representations diverge from robust chess understanding.
 
-Here’s one interesting game against a weak version of Stockfish. The model plays principled, aggressive chess and even finds some nice tactical ideas against an opponent whose style, quite fittingly, resembles a bot’s:
+The below game is illustrative of the model's style. It plays principled, aggressive chess and occasionally finds nontrivial ideas against an opponent whose play, quite fittingly, resembles a bot’s:
 
 ```pgn
 [Date "2026.05.08"]
