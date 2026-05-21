@@ -135,8 +135,27 @@ $(document).ready(function () {
     }
   });
 
+  $(".reversefootnote").on("click", function (event) {
+    const hash = this.hash;
+    const target = hash && document.getElementById(decodeURIComponent(hash.slice(1)));
+
+    if (!target) {
+      return;
+    }
+
+    event.preventDefault();
+    const targetTop = target.getBoundingClientRect().top + window.pageYOffset;
+    const centeredTop = Math.max(0, targetTop - ((window.innerHeight - target.offsetHeight) / 2));
+
+    $("html, body").animate({ scrollTop: centeredTop }, 400);
+
+    if (history.pushState) {
+      history.pushState(null, "", hash);
+    }
+  });
+
   // Init smooth scroll, this needs to be slightly more than then fixed masthead height
-  $("a").smoothScroll({
+  $("a:not(.reversefootnote)").smoothScroll({
     offset: -scssMastheadHeight,
     preventDefault: false,
   });

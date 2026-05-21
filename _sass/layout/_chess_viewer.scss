@@ -125,11 +125,26 @@ img.piece-417db {
   margin: 1.7rem auto;
 }
 
+.page__content figure.image-with-caption.wide-image,
+.page__content figure.image-with-caption:has(> img.wide-image) {
+  width: var(--image-caption-width, min(96vw, 1040px));
+  max-width: min(96vw, 1040px);
+  margin-left: 50%;
+  margin-right: 0;
+  transform: translateX(-50%);
+}
+
 .page__content figure.image-with-caption > img {
   display: block;
   width: 100%;
   max-width: 100%;
-  margin: 0 0 0.8rem;
+  margin: 0 0 var(--image-caption-gap, 0.8rem);
+}
+
+.page__content figure.image-with-caption > img.wide-image {
+  margin-left: auto;
+  margin-right: auto;
+  transform: none;
 }
 
 .page__content figure.image-with-caption > .image-caption {

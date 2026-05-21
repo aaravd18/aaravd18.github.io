@@ -466,13 +466,45 @@ body:hover .visually-hidden button {
    Footnotes
    ========================================================================== */
 
+$footnotes-top-gap: 2.5rem;
+
 .footnote {
   color: var(--global-text-color-light);
-  text-decoration: none;
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+
+  &:hover,
+  &:active {
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+  }
+}
+
+.page__content a.footnote,
+.page__content sup a.footnote {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+
+  &:hover,
+  &:active {
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+  }
 }
 
 .footnotes {
   color: var(--global-text-color-light);
+  margin-bottom: -$footnotes-top-gap;
+  padding-top: $footnotes-top-gap;
+
+  ol {
+    margin-left: 0;
+    padding-left: 0;
+  }
 
   ol, li, p {
     margin-bottom: 0;
