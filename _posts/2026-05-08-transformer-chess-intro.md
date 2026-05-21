@@ -12,7 +12,7 @@ Does it develop concepts humans would recognize, like forks or pins? Or does it 
 In this mini-series, I train a transformer to predict the next move in real chess games, then reverse engineer it to see what it learned.
 
 <figure class="image-with-caption" style="--image-caption-width: 480px;">
-  <img src="/images/ruy-lopez-teaser.png" alt="">
+  <img src="/images/chess/ruy-lopez-teaser.svg" alt="">
   <figcaption class="image-caption">A peek inside: In a Ruy Lopez position, one attention head focuses the bishop along its pinning diagonal.</figcaption>
 </figure>
 
@@ -59,10 +59,6 @@ On 20,000 held-out validation positions:
 - **Legality:** The model outputs a legal move 99.8% of the time, meaning it has internalized the rules without being told them explicitly.
 - **Accuracy:** Model predicts the human move 49% of the time. The human move is in the model's top three choices 77.6% of the time and in the top five 87.7% of the time.
 
-I also tested the model against myself, friends, and engines. Its opening repertoire and positional play are noticeably stronger than those of a typical human at this playing level. At the same time, it's tactically fragile and prone to simple blunders. It also struggles to convert winning positions, likely because strong human games often end in resignation before checkmate appears on the board. I hypothesize that these weaknesses reflect the training distribution of precise, positional games, and would be reduced by augmenting the data with puzzles and mating positions.
-
-The model’s uneven capabilities actually make it especially interesting for interpretability work. It is strong enough to learn meaningful chess concepts, yet weak enough that its failures remain visible. Rather than treating these weaknesses as noise, they may expose where the model’s internal representations diverge from robust chess understanding.
-
 The below game is illustrative of the model's style. It plays principled, aggressive chess and occasionally finds nontrivial ideas against an opponent whose play, quite fittingly, resembles a bot’s:
 
 ```pgn
@@ -75,8 +71,12 @@ The below game is illustrative of the model's style. It plays principled, aggres
 1. e4 Nc6 2. d4 e5 3. d5 Nb4 4. a3 Na6 5. c4 Nb8 6. Nc3 h6 7. f4 exf4 8. Bxf4 Bc5 9. Nf3 d6 10. Bd3 Bg4 11. b4 Bd4 12. Rc1 Nf6 13. h3 Bxf3 14. Qxf3 a5 15. Nb5 Bb2 16. Rc2 Bxa3 17. Nxa3 g5 18. Bh2 g4 19. hxg4 Rg8 20. O-O h5 21. Qxf6 Qxf6 22. Rxf6 axb4 23. Nb5 Nd7 24. Nxc7+ Kd8 25. Nxa8 Nxf6 26. Bxd6 b3 27. Rb2 Kd7 28. Be5 Nxg4 29. Nb6+ Ke7 30. Bd4 Re8 31. Rxb3 Rd8 32. c5 f6 33. c6 Kf7 34. c7 Rd6 35. c8=Q h4 36. Qxb7+ Kf8 37. Bc5 f5 38. Bxd6+ Kg8 39. exf5 Nf6 40. Qc8+ Kh7 41. Qc7+ Kh8 42. Be5 Kg8 43. Bxf6 Kf8 44. Qe7+ Kg8 45. Qg7# 1-0
 ```
 
-An interesting sequence starts after [27... Kd7](#ply-54) as both white's bishop and knight are under attack. There model manages to save both, starting with [28. Be5](#ply-55), saving the bishop while attacking Black's knight (so Rxa8 would be met with Bxf6). After [28... Nxg4](#ply-56), both pieces are under attack again, so the model continues with [29. Nb6+](#ply-57), escaping with check to evacuate the bishop the next move. Exactly the kind of sophisticated thinking that will make the model interesting to dissect.
+A small but telling example of sequential planning starts after [27... Kd7](#ply-54) as both white's bishop and knight are under attack. There model manages to save both, starting with [28. Be5](#ply-55), saving the bishop while attacking Black's knight (so Rxa8 would be met with Bxf6). After [28... Nxg4](#ply-56), both pieces are under attack again, so the model continues with [29. Nb6+](#ply-57), escaping with check to evacuate the bishop the next move.
 {: .chess-viewer-caption}
+
+I also tested the model against myself and my friends, and observed that its opening repertoire and positional play are noticeably stronger than those of a typical human at this playing level. At the same time, it's tactically fragile and prone to simple blunders. It also struggles to convert winning positions, likely because strong human games often end in resignation before checkmate appears on the board. I hypothesize that these weaknesses reflect the training distribution of precise, positional games, and would be reduced by augmenting the data with puzzles and mating positions.
+
+The model’s uneven capabilities actually make it especially interesting for interpretability work. It is strong enough to learn meaningful chess concepts, yet weak enough that its failures remain visible. Rather than treating these weaknesses as noise, they may expose where the model’s internal representations diverge from robust chess understanding.
 
 ## What's Next
 

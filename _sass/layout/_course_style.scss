@@ -1,5 +1,6 @@
 :root {
   --course-bg: #efefef;
+  --course-nav-bg: #ececec;
   --course-paper: #f4f4f4;
   --course-card: #f7f7f7;
   --course-border: #dedede;
@@ -16,13 +17,13 @@ html {
 }
 
 body {
-  background: radial-gradient(circle at top right, #f7f7f7, var(--course-bg) 45%);
+  background: var(--course-bg);
   color: var(--course-text);
   font-family: 'Source Serif 4', Georgia, serif;
 }
 
 .masthead {
-  background: var(--course-bg);
+  background: var(--course-nav-bg);
   border-bottom: 1px solid var(--course-border);
 }
 
@@ -32,13 +33,13 @@ body {
 
 .masthead__inner-wrap,
 .greedy-nav {
-  background: var(--course-bg);
+  background: var(--course-nav-bg);
   max-width: 1240px;
 }
 
 .masthead__menu-item,
 .greedy-nav button {
-  background: var(--course-bg);
+  background: var(--course-nav-bg);
 }
 
 .masthead__menu-item a {

@@ -243,6 +243,13 @@
     border-radius: $border-radius;
   }
 
+  img.wide-image {
+    max-width: min(96vw, 1040px);
+    margin-left: 50%;
+    margin-right: 0;
+    transform: translateX(-50%);
+  }
+
   table {
     width: 100%;
     margin: 1.5rem 0;
