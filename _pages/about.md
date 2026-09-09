@@ -7,9 +7,9 @@ redirect_from:
   - /about.html
 ---
 
-Hey! I’m a computer science student at the University of California, Berkeley, and I'm broadly interested in developing machine learning techniques for difficult, domain-specific problems. 
+Hey! I’m a computer science student at UC Berkeley interested in developing machine learning methods for challenging, domain-specific problems.
 
-Most recently, I interned at Genesis Molecular AI, where I worked on diffusion-based molecular models for drug discovery. At BAIR (Berkeley AI Research), I worked on an explorative reinforcement learning project where we attempted to train an LLM poker player that was able to exploit biases in its opponents. 
+Most recently, I interned at Genesis Molecular AI, where I worked on diffusion-based molecular models for drug discovery. At BAIR (Berkeley AI Research), I worked on reinforcement learning, most notably a pipeline to train an LLM poker player that was able to exploit biases in its opponents. 
 
 I’ve also enjoyed applying machine learning across very different domains, from financial markets at ExodusPoint Capital Management to orthodontics at Invisalign. 
 
