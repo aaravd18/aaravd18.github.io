@@ -1,6 +1,6 @@
 ---
 title: 'Reverse Engineering Chess: Designing a Chess Transformer'
-date: 2026-05-08
+date: 2026-05-25
 permalink: /posts/transformer-chess/
 excerpt_text: What does a neural network actually learn when it learns to play chess?
 chess_viewer: true
