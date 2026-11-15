@@ -1,5 +1,10 @@
 {% include base_path %}
-
-<div class="page__footer-copyright"> 
-  &copy; {{ site.time | date: '%Y' }} {{ site.name | default: site.title }}
+<div class="page__footer-inner">
+  <span class="page__footer-copyright">&copy; {{ site.time | date: '%Y' }} {{ site.name | default: site.title }}</span>
+  <ul class="page__footer-links">
+    {% if site.author.email %}<li><a href="mailto:{{ site.author.email }}">Email</a></li>{% endif %}
+    {% if site.author.github %}<li><a href="https://github.com/{{ site.author.github }}">GitHub</a></li>{% endif %}
+    {% if site.author.linkedin %}<li><a href="https://www.linkedin.com/in/{{ site.author.linkedin }}">LinkedIn</a></li>{% endif %}
+    {% unless site.atom_feed.hide %}<li><a href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ base_path }}/feed.xml{% endif %}">RSS</a></li>{% endunless %}
+  </ul>
 </div>

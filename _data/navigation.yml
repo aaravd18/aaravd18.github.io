@@ -1,5 +1,7 @@
+# Main site navigation (masthead).
+# A "CV" link is appended automatically when `author.cv` is set in _config.yml.
 main:
   - title: "Home"
     url: /
-  - title: "Blog"
+  - title: "Writing"
     url: /blog/

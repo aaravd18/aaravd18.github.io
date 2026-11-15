@@ -1,0 +1,21 @@
+{% comment %}
+  Chronological list of posts.
+    posts   – array of posts to show (required)
+    limit   – maximum number of posts (optional)
+    excerpt – true to show each post's excerpt_text under the title
+{% endcomment %}
+{% include base_path %}
+<ol class="post-list{% if include.excerpt %} post-list--full{% endif %}">
+  {% for post in include.posts limit: include.limit %}
+    <li class="post-list__item">
+      <time class="post-list__date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
+      <div class="post-list__body">
+        <a class="post-list__title" href="{{ base_path }}{{ post.url }}">{{ post.title | markdownify | remove: "<p>" | remove: "</p>" | strip }}</a>
+        {% if include.excerpt %}
+          {% assign summary = post.excerpt_text | default: post.description %}
+          {% if summary %}<div class="post-list__excerpt">{{ summary | markdownify }}</div>{% endif %}
+        {% endif %}
+      </div>
+    </li>
+  {% endfor %}
+</ol>

@@ -1,42 +1,11 @@
 ---
 layout: archive
 permalink: /blog/
-title: ""
+title: "Writing"
+subtitle: "Notes on things I’m building, training, and taking apart in machine learning."
 author_profile: false
 redirect_from:
   - /wordpress/blog-posts/
 ---
 
-{% include base_path %}
-
-<div class="course-blog" role="region" aria-label="Blog posts">
-  <section class="course-blog__modules">
-    {% for post in site.posts %}
-      <article class="course-module">
-        <div class="course-module__content" aria-labelledby="post-{{ post.slug }}">
-          <article class="course-post-row">
-            <header class="course-post-row__header">
-              <h3 class="course-post-row__title">
-                <a href="{{ base_path }}{{ post.url }}" rel="permalink">{{ post.title | markdownify | remove: "<p>" | remove: "</p>" }}</a>
-              </h3>
-              <time class="course-post-row__date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time>
-            </header>
-
-            {% assign card_excerpt = post.excerpt_text | default: post.excerpt %}
-            {% if card_excerpt %}
-              <div class="course-post-row__excerpt">{{ card_excerpt | markdownify | truncate: 150 }}</div>
-            {% endif %}
-
-            <div class="course-post-row__actions">
-              {% if post.tags and post.tags.size > 0 %}
-                {% for tag in post.tags limit: 2 %}
-                  <span class="course-chip course-chip--muted">{{ tag }}</span>
-                {% endfor %}
-              {% endif %}
-            </div>
-          </article>
-        </div>
-      </article>
-    {% endfor %}
-  </section>
-</div>
+{% include post-list.html posts=site.posts excerpt=true %}

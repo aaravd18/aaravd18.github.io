@@ -1,0 +1,69 @@
+---
+layout: default
+---
+{% comment %}
+  Homepage: introduction (bio = this page's Markdown content), selected work
+  (from _data/selected_work.yml), and recent writing.
+{% endcomment %}
+{% include base_path %}
+{% assign author = site.author %}
+
+<main id="main" class="home" role="main">
+  <section class="intro" aria-label="Introduction" itemscope itemtype="http://schema.org/Person">
+    <div class="intro__header">
+      <img class="intro__photo" src="{{ author.avatar | prepend: '/images/' | prepend: base_path }}" alt="Photo of {{ author.name }}" width="132" height="132" fetchpriority="high" itemprop="image">
+      <div class="intro__heading">
+        <h1 class="intro__name" itemprop="name">{{ author.name }}</h1>
+        {% if author.bio %}<p class="intro__role" itemprop="jobTitle">{{ author.bio }}</p>{% endif %}
+        <ul class="intro__links">
+          {% if author.email %}<li><a href="mailto:{{ author.email }}" itemprop="email">Email</a></li>{% endif %}
+          {% if author.github %}<li><a href="https://github.com/{{ author.github }}" rel="me">GitHub</a></li>{% endif %}
+          {% if author.linkedin %}<li><a href="https://www.linkedin.com/in/{{ author.linkedin }}" rel="me">LinkedIn</a></li>{% endif %}
+          {% if author.cv %}<li><a href="{% if author.cv contains '://' %}{{ author.cv }}{% else %}{{ base_path }}{{ author.cv }}{% endif %}">CV</a></li>{% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="intro__bio prose">
+      {{ content }}
+    </div>
+  </section>
+
+  {% if site.data.selected_work %}
+  <section class="home-section" aria-labelledby="selected-work">
+    <h2 class="home-section__title" id="selected-work">Selected Work</h2>
+    <ul class="work-list">
+      {% for item in site.data.selected_work %}
+        {% assign primary = item.links | first %}
+        {% if primary.url contains '://' %}{% assign primary_href = primary.url %}{% else %}{% assign primary_href = base_path | append: primary.url %}{% endif %}
+        <li class="work">
+          {% if item.label %}<p class="work__label">{{ item.label }}</p>{% endif %}
+          <h3 class="work__title">{% if primary %}<a href="{{ primary_href }}">{{ item.title }}</a>{% else %}{{ item.title }}{% endif %}</h3>
+          <div class="work__description">{{ item.description | markdownify }}</div>
+          {% if item.links %}
+            <ul class="work__links">
+              {% for link in item.links %}
+                {% if link.url contains '://' %}{% assign href = link.url %}{% else %}{% assign href = base_path | append: link.url %}{% endif %}
+                <li><a href="{{ href }}">{{ link.label }}</a></li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if site.posts.size > 0 %}
+  <section class="home-section" aria-labelledby="writing">
+    <div class="home-section__header">
+      <h2 class="home-section__title" id="writing">Writing</h2>
+      <a class="home-section__more" href="{{ base_path }}/blog/">All posts &rarr;</a>
+    </div>
+    {% comment %} Posts with `featured: true` in their front matter take priority; otherwise the latest three. {% endcomment %}
+    {% assign featured_posts = site.posts | where: "featured", true %}
+    {% if featured_posts.size == 0 %}{% assign featured_posts = site.posts %}{% endif %}
+    {% include post-list.html posts=featured_posts excerpt=false limit=3 %}
+  </section>
+  {% endif %}
+</main>

@@ -9,7 +9,7 @@
 # Basic Site Settings
 locale                   : "en-US"
 site_theme               : "default" # The available themes options are "default", "air", "sunrise", "mint", "dirt" and "contrast"
-title                    : "Home"
+title                    : "Aarav Desai"
 title_separator          : "-"
 name                     : &name "Aarav Desai"
 description              : &description "Aarav's academic portfolio"   # Update this with a general description of your site, this is the default if not overridden by a page
@@ -31,6 +31,7 @@ author:
   employer         : "University of California, Berkeley"
   # uri              : "https://aaravd18.github.io"
   email            : "aaravdesai@berkeley.edu" 
+  cv               : # Path or URL to your CV, e.g. "/files/aarav-desai-cv.pdf". When set, "CV" appears in the nav and homepage links.
 
   # Academic websites
   academia         : # URL

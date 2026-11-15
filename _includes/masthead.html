@@ -1,25 +1,26 @@
 {% include base_path %}
-<div class="masthead">
-  <div class="masthead__inner-wrap">
-    <div class="masthead__menu">
-      <nav id="site-nav" class="greedy-nav">
-        <button><span class="navicon"></span></button>
-        <ul class="visible-links">
-          {% for link in site.data.navigation.main %}
-            {% if link.url contains 'http' %}
-              {% assign domain = '' %}
-            {% else %}
-              {% assign domain = base_path %}
-            {% endif %}
-            {% assign is_home = false %}
-            {% if link.url == '/' %}{% assign is_home = true %}{% endif %}
-            <li class="masthead__menu-item {% if is_home and (page.url == '/' or page.url == '/index.html') %}selected{% elsif page.url contains link.url and link.url != '/' %}selected{% endif %}">
-              <a href="{{ domain }}{{ link.url }}">{{ link.title }}</a>
-            </li>
-          {% endfor %}
-        </ul>
-        <ul class="hidden-links hidden"></ul>
-      </nav>
-    </div>
+<header class="masthead">
+  <div class="masthead__inner">
+    <a class="masthead__name" href="{{ base_path }}/">{{ site.name }}</a>
+    <nav class="masthead__nav" aria-label="Main">
+      <ul>
+        {% for link in site.data.navigation.main %}
+          {% if link.url contains '://' %}{% assign href = link.url %}{% else %}{% assign href = base_path | append: link.url %}{% endif %}
+          {% assign is_current = false %}
+          {% if link.url == '/' %}
+            {% if page.url == '/' or page.url == '/index.html' %}{% assign is_current = true %}{% endif %}
+          {% elsif page.url contains link.url %}
+            {% assign is_current = true %}
+          {% elsif link.url == '/blog/' and page.collection == 'posts' %}
+            {% assign is_current = true %}
+          {% endif %}
+          <li><a href="{{ href }}"{% if is_current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+        {% endfor %}
+        {% if site.author.cv %}
+          {% if site.author.cv contains '://' %}{% assign cv_href = site.author.cv %}{% else %}{% assign cv_href = base_path | append: site.author.cv %}{% endif %}
+          <li><a href="{{ cv_href }}">CV</a></li>
+        {% endif %}
+      </ul>
+    </nav>
   </div>
-</div>
+</header>

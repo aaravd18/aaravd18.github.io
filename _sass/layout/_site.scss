@@ -1,0 +1,244 @@
+/* ==========================================================================
+   SITE
+   Design tokens and shared chrome (masthead, footer, links) for the whole
+   site. Page-specific styles live in _home.scss and _index.scss.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* Palette: a quiet, warm-gray paper with near-black ink. */
+  --bg: #f4f4f2;
+  --ink: #1c1c1c;          /* headings, titles */
+  --ink-body: #333;        /* running text */
+  --ink-soft: #555;        /* secondary text, excerpts */
+  --muted: #6b6b6b;        /* dates, labels, meta (>= 4.5:1 on --bg) */
+  --rule: #dddcd8;         /* hairlines */
+  --underline: #b9b8b2;    /* resting link underline */
+
+  /* Type */
+  --font-body: 'Source Serif 4', Georgia, serif;
+  --font-display: 'Newsreader', Georgia, serif;
+
+  /* Layout */
+  --measure: 40rem;        /* main text column: 640px mobile / 720px desktop */
+  --gutter: 1.25rem;
+
+  /* Map the template's theme variables onto the tokens above. */
+  --global-bg-color: var(--bg);
+  --global-text-color: var(--ink);
+  --global-text-color-light: var(--muted);
+  --global-border-color: var(--rule);
+  --global-footer-bg-color: var(--bg);
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  /* The masthead is no longer fixed. !important overrides the inline
+     padding-top that the legacy nav script in main.min.js sets on <body>. */
+  padding-top: 0 !important;
+}
+
+/* No entrance animations. */
+.masthead,
+#main,
+.page__footer {
+  -webkit-animation: none;
+          animation: none;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Shared link treatment: ink-coloured text with a soft underline that darkens on hover. */
+%quiet-link {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--underline);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.15s ease;
+
+  &:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+/* Titles: no underline until hovered. */
+%title-link {
+  color: var(--ink);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+}
+
+/* ==========================================================================
+   MASTHEAD
+   ========================================================================== */
+
+.masthead {
+  position: static;
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg);
+}
+
+.masthead__inner {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 1.1rem var(--gutter);
+}
+
+.masthead__name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.masthead__nav ul {
+  display: flex;
+  gap: 1.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.masthead__nav li {
+  margin: 0;
+}
+
+.masthead__nav a {
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-decoration: none;
+  text-underline-offset: 0.35em;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--ink);
+  }
+
+  &[aria-current="page"] {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+  }
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.page__footer {
+  background: transparent;
+  border-top: 1px solid var(--rule);
+  color: var(--muted);
+
+  footer {
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: 1.25rem var(--gutter) 1.5rem;
+  }
+
+  a {
+    color: var(--muted);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--ink);
+      text-decoration: none;
+    }
+  }
+}
+
+.page__footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  font-size: 0.8rem;
+}
+
+.page__footer-copyright {
+  font-size: inherit;
+}
+
+.page__footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    margin: 0;
+  }
+}
+
+/* ==========================================================================
+   BLOG POSTS (carried over unchanged; to be revisited in the post redesign)
+   ========================================================================== */
+
+#main {
+  max-width: 1240px;
+}
+
+.page {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.page .page__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.1rem;
+}
+
+.page__content {
+  color: #2d2d2d;
+  line-height: 1.8;
+}
+
+.page__content p {
+  color: #444;
+}
+
+.page__content a {
+  color: #0f0f0f;
+  text-decoration: none;
+  border-bottom: 1px solid #bfbfbf;
+}
+
+.page__content a:hover {
+  border-bottom-color: #111;
+}
+
+.page__content a.footnote,
+.page__content a.footnote:hover,
+.page__content a.footnote:active {
+  border-bottom: 0;
+  text-decoration: none;
+}
