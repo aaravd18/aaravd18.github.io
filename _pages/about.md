@@ -15,4 +15,6 @@ I’ve also enjoyed applying machine learning across very different domains, fro
 
 Outside of computer science, I’m a lifelong soccer player and fan (Hala Madrid!). Having grown up across four different countries, I also love to travel and meet new people.
 
-If you're working on interesting problems in machine learning or trying to build something ambitious, I'd love to hear from you! I also write occasionally on my [blog](/blog/).
+If you're working on interesting problems in machine learning or building something ambitious, I'd love to hear from you!
+
+PS: I also write occasionally on my [blog](/blog/).

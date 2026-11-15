@@ -1,31 +1,30 @@
 # "Selected Work" on the homepage, shown in this order.
 #
-#   title:       project name (links to the first entry in `links`)
+#   title:       project name
+#   url:         where the title links (optional; defaults to the first entry in `links`)
 #   label:       short muted topic label shown above the title (optional)
 #   description: one or two sentences, Markdown allowed
 #   links:       list of { label, url }; internal URLs start with "/"
 
 - title: "Reverse engineering a chess transformer"
+  url: /posts/transformer-chess-2/
   label: "Interpretability"
   description: >-
-    I trained a small transformer to predict the next move in real chess games,
-    then opened it up with mechanistic interpretability. Ablating individual
-    attention heads shows the model represents short-range geometry redundantly,
-    but long-range geometry sparsely.
+    What does a neural network actually learn when it learns to play chess?
+    To find out, I train a chess-playing transformer from scratch,
+    then take it apart to see how it thinks.
   links:
-    - label: "Part 1: Designing a Chess Transformer"
-      url: /posts/transformer-chess/
-    - label: "Part 2: Long-Range Vision Is Sparse"
+    - label: "Interpretability Findings"
       url: /posts/transformer-chess-2/
+    - label: "Designing The Model"
+      url: /posts/transformer-chess/
     - label: "Code"
       url: https://github.com/aaravd18/transformer-chess
 
 - title: "A 16MB language model on a Raspberry Pi"
-  label: "Small models"
+  label: "Model Efficiency"
   description: >-
-    I pretrained a language model, squeezed it into 16MB following a recipe from
-    OpenAI's Parameter Golf leaderboard, and got it running on a $30 Raspberry Pi 3
-    with no GPU, at about one token per second.
+    I pretrained a 16MB language model, and got it running on a $30 Raspberry Pi with no GPU.
   links:
     - label: "Writeup"
       url: /posts/16mb-lm-on-pi/
@@ -33,13 +32,12 @@
       url: https://github.com/aaravd18/golf-model
 
 - title: "Teaching an LLM to play exploitative poker"
-  label: "Reinforcement learning · BAIR"
+  label: "Post-Training"
   description: >-
     At Berkeley AI Research, my team and I trained a 3B-parameter model to leverage
-    a poker solver and exploit its opponents' biases. It also turned out to be an
-    instructive look at the roles of SFT, RL, and reward functions in post-training.
+    a poker solver and exploit its opponents' biases. Below are my reflections.
   links:
     - label: "SFT and RL in Post Training"
       url: /posts/sft_vs_rl/
-    - label: "On Reward Functions That Don’t Behave"
+    - label: "On Reward Functions That Don't Behave"
       url: /posts/art-of-the-reward-function/

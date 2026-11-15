@@ -34,8 +34,9 @@ layout: default
     <h2 class="home-section__title" id="selected-work">Selected Work</h2>
     <ul class="work-list">
       {% for item in site.data.selected_work %}
-        {% assign primary = item.links | first %}
-        {% if primary.url contains '://' %}{% assign primary_href = primary.url %}{% else %}{% assign primary_href = base_path | append: primary.url %}{% endif %}
+        {% assign first_link = item.links | first %}
+        {% assign primary = item.url | default: first_link.url %}
+        {% if primary contains '://' %}{% assign primary_href = primary %}{% else %}{% assign primary_href = base_path | append: primary %}{% endif %}
         <li class="work">
           {% if item.label %}<p class="work__label">{{ item.label }}</p>{% endif %}
           <h3 class="work__title">{% if primary %}<a href="{{ primary_href }}">{{ item.title }}</a>{% else %}{{ item.title }}{% endif %}</h3>
