@@ -9,9 +9,9 @@ Over the past few months, I've been asking a lot of the older people I speak to 
 
 *In a world where Claude can already do much of the work of a junior engineer or analyst, what will a fresh college graduate have to offer?*
 
-The answer I get is almost always some variation of "you let me know when you figure that out" or "your generation is in quite an unfortunate position". Of course, they phrase it much more eloquently and gently than that, but the sentiment stands.
+Preceded by a moment of silence, the response is almost always a variation of: "I don't have a good answer to that question" and "it's really quite tough for your generation".
 
-One portfolio manager at the hedge fund I interned at told me quite candidly that he simply saw no monetary reason to hire a new graduate analyst with the current state of things. He's someone whose advice I trust, and I appreciated that he was willing to say so plainly.[^1]
+One portfolio manager at the hedge fund I interned at told me quite candidly that he simply saw no monetary reason to hire a new graduate analyst with the current state of things. He's someone whose advice I trust, and I appreciated him saying it so plainly.[^1]
 
 For a long time, being smart, technically competent, and willing to work hard was a pretty reliable way to make yourself useful. You'd enter an industry, learn from people more experienced than you, and gradually develop the judgment to contribute something of your own.
 
@@ -63,7 +63,7 @@ Maybe it's an unusually deep understanding of a problem. Maybe it's a particular
 
 But finding that edge is hard, and historically, much of that discovery happened through doing relatively ordinary work. You'd spend years learning a craft, encountering problems, and gradually developing a perspective that was distinctly your own.
 
-I wonder what happens when AI takes over the journey through which people once developed their judgment. I don't have a good answer to that problem, but it has changed how I think about spending my own time.
+I wonder what happens when AI takes over the journey through which people once developed their edge. I don't have a good answer to that problem, but it has changed how I think about spending my own time.
 
 I still want to become technically excellent and still believe in working hard. But I also want to spend more time reading, writing, meeting interesting people, and pursuing things I'm genuinely curious about. 
 
