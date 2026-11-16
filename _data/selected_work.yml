@@ -14,7 +14,7 @@
     To find out, I train a chess-playing transformer from scratch,
     then take it apart to see how it thinks.
   links:
-    - label: "Interpretability Findings"
+    - label: "Findings"
       url: /posts/transformer-chess-2/
     - label: "Designing The Model"
       url: /posts/transformer-chess/
